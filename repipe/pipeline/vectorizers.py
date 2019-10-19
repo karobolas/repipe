@@ -17,23 +17,23 @@ class HashingVectorizerAdapter(FitTransformMixin):
         self._encoder = HashingVectorizer(**kwargs)
 
     def transform(self, X: pd.Series) -> csr_matrix:
-        logging.debug('HashingVectorizerAdapter::transform - Start')
+        logger.debug('HashingVectorizerAdapter::transform - Start')
         try:
             if len(X) > 1000:
-                logging.debug('HashingVectorizerAdapter::transform - Executing parallel transform')
+                logger.debug('HashingVectorizerAdapter::transform - Executing parallel transform')
                 sub_parts = Parallel(n_jobs=-1, max_nbytes='512K', mmap_mode='w+')(
                     delayed(self._encoder.transform)(X.iloc[i:i + 1000])
                     for i in range(0, len(X), 1000)
                 )
 
-                logging.debug('HashingVectorizerAdapter::transform - Concatenating sub-parts')
+                logger.debug('HashingVectorizerAdapter::transform - Concatenating sub-parts')
                 final = vstack(sub_parts)
             else:
                 final = self._encoder.transform(X)
 
             return final
         finally:
-            logging.debug('HashingVectorizerAdapter::transform - Done')
+            logger.debug('HashingVectorizerAdapter::transform - Done')
 
     @property
     def params(self):

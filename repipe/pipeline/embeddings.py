@@ -65,11 +65,11 @@ class WordVectorEmbedder(FitTransformMixin):
 
             return embeddings
 
-        logging.debug('WordVectorEmbedder::transform - Start')
+        logger.debug('WordVectorEmbedder::transform - Start')
         try:
             return _transform(series)
         finally:
-            logging.debug('WordVectorEmbedder::transform - Done')
+            logger.debug('WordVectorEmbedder::transform - Done')
 
     @property
     def params(self):

@@ -60,11 +60,11 @@ class KerasTokenizerAdapter(FitTransformMixin):
 
             return tokens
 
-        logging.debug('KerasTokenizerAdapter::transform - Start')
+        logger.debug('KerasTokenizerAdapter::transform - Start')
         try:
             return _transform(X)
         finally:
-            logging.debug('KerasTokenizerAdapter::transform - Done')
+            logger.debug('KerasTokenizerAdapter::transform - Done')
 
     @property
     def params(self):
@@ -95,23 +95,23 @@ class KerasTextHasher(FitTransformMixin):
                 for i, text in enumerate(X.str.lower())
             ]
 
-        logging.debug('TextHasher::transform - Start')
+        logger.debug('TextHasher::transform - Start')
         try:
             if len(series > 1000):
-                logging.debug('TextHasher::transform - Executing parallel transform')
+                logger.debug('TextHasher::transform - Executing parallel transform')
                 sub_parts = Parallel(n_jobs=-1, max_nbytes='512K', mmap_mode='w+')(
                     delayed(_transform)(series.iloc[i:i + 1000])
                     for i in range(0, len(series), 1000)
                 )
 
-                logging.debug('TextHasher::transform - Concatenating sub-parts')
+                logger.debug('TextHasher::transform - Concatenating sub-parts')
                 final = sum(sub_parts, [])
             else:
                 final = _transform(series)
 
             return final
         finally:
-            logging.debug('TextHasher::transform - Done')
+            logger.debug('TextHasher::transform - Done')
 
     @property
     def params(self):
@@ -125,11 +125,11 @@ class KerasPadSequencesAdapter(FitTransformMixin):
         self._params = kwargs
 
     def transform(self, X: List[List[int]]) -> np.array:
-        logging.debug('KerasPadSequencesAdapter::transform - Start')
+        logger.debug('KerasPadSequencesAdapter::transform - Start')
         try:
             return pad_sequences(X, **self._params)
         finally:
-            logging.debug('KerasPadSequencesAdapter::transform - Done')
+            logger.debug('KerasPadSequencesAdapter::transform - Done')
 
     @property
     def params(self):

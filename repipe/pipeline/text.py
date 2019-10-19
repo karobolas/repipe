@@ -61,23 +61,23 @@ class TextScrubber(FitTransformMixin):
 
             return pd.Series(result)
 
-        logging.debug('TextScrubber::transform - Start')
+        logger.debug('TextScrubber::transform - Start')
         try:
             if len(series) > 1000:
-                logging.debug('TextScrubber::transform - Executing parallel transform')
+                logger.debug('TextScrubber::transform - Executing parallel transform')
                 sub_parts = Parallel(n_jobs=-1, max_nbytes='512K', mmap_mode='w+')(
                     delayed(_transform)(series.iloc[i:i + 1000])
                     for i in range(0, len(series), 1000)
                 )
 
-                logging.debug('TextScrubber::transform - Concatenating sub-parts')
+                logger.debug('TextScrubber::transform - Concatenating sub-parts')
                 final = pd.concat(sub_parts, axis=0)
             else:
                 final = _transform(series)
 
             return final
         finally:
-            logging.debug('TextScrubber::transform - Done')
+            logger.debug('TextScrubber::transform - Done')
 
     @property
     def params(self):
@@ -94,11 +94,11 @@ class TextFieldUnion(FitTransformMixin):
         self._sep = separator
 
     def transform(self, *series: List[pd.Series]) -> pd.Series:
-        logging.debug('TextFieldUnion::transform - Start')
+        logger.debug('TextFieldUnion::transform - Start')
         try:
             return reduce(lambda a, b: (a.fillna('') + self._sep + b.fillna('')), series)
         finally:
-            logging.debug('TextFieldUnion::transform - Done')
+            logger.debug('TextFieldUnion::transform - Done')
 
     @property
     def params(self):

@@ -42,7 +42,7 @@ class OneHotEncoderAdapter(FitTransformMixin):
         self._encoder.fit(categories.values.reshape(-1,1))
 
     def transform(self, X:pd.Series) -> Union[np.ndarray, csr_matrix]:
-        logging.debug('OneHotEncoderAdapter::transform - Start')
+        logger.debug('OneHotEncoderAdapter::transform - Start')
         try:
             categories = self._encoder.categories_[0]
             if not self._is_numerical:
@@ -50,7 +50,7 @@ class OneHotEncoderAdapter(FitTransformMixin):
                 X[~X.isin(categories)] = ''
             return self._encoder.transform(X.values.reshape(-1,1))
         finally:
-            logging.debug('OneHotEncoderAdapter::transform - Done')
+            logger.debug('OneHotEncoderAdapter::transform - Done')
 
     @property
     def params(self):
