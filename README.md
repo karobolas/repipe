@@ -95,7 +95,6 @@ pipe = pipeline.Pipeline(
 ### Using the pipe
 
 ```
-
 x_trainT = pipe.transform(x_train)
 x_testT = pipe.transform(x_test)
 ```
@@ -114,5 +113,5 @@ with open(f'my_pipe.yaml', 'r') as f:
     pipe2 = Serializable.load(yaml.load(f))
     
 # Use
-X = pipe.transform(dataset)
+X = pipe2.transform(dataset)
 ```
