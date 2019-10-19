@@ -15,7 +15,7 @@ Re-pipe is not yet in a clean state and is under development.
 # Examples
 ### Creating a pipe
 
-```
+```python
 import repipe.pipeline as pipeline
 
 pipe = pipeline.Pipeline(
@@ -94,13 +94,13 @@ pipe = pipeline.Pipeline(
 
 ### Using the pipe
 
-```
+```python
 x_trainT = pipe.transform(x_train)
 x_testT = pipe.transform(x_test)
 ```
 
 ### Saving/loading the pipe
-```
+```python
 import yaml
 from repipe.serializable import Serializable
  
