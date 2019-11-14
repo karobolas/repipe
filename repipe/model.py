@@ -122,12 +122,6 @@ class Model(Serializable):
     ):
         import keras.backend as K
         from keras.models import load_model
-        
-        script_path = os.path.dirname(os.path.abspath(__file__))
-        root_path = os.path.abspath(script_path+'/../')
-
-        if not os.path.exists(path):
-            path = root_path+'/'+path
 
         self._path = path
         self._model = load_model(path)
