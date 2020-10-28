@@ -18,7 +18,7 @@ setup(
         'numpy == 1.17.3',
         'pandas == 0.25.2',
         'scikit-learn == 0.21.3',
-        'scipy == 1.3.1',
+        'scipy == 1.4.1',
     ],
     extras_require={
         'test': [
