@@ -11,7 +11,7 @@ setup(
     python_requires='>=3.6',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=[
-        'gensim == 3.8.1',
+        'gensim == 3.8.3',
         'joblib == 0.14.0',
         'Keras-Preprocessing == 1.1.0',
         'nltk == 3.4.5',
